@@ -1,0 +1,69 @@
+---
+title: "TickerVolatilityPlot"
+author: "Alex Frye"
+date: "July 10, 2016"
+output: md_document
+---
+
+For this analysis, we need to install/load the tseries R Package.
+
+```{r Libraries}
+
+##install.packages("tseries")
+library(tseries)
+
+```
+
+I have chosen to analyze the Company I work for, AmerisourceBergen. Ticker Symbol "ABC"
+
+Step 1: Load the closing quotes
+```{r loadData}
+
+
+tickerdata<-get.hist.quote('ABC', quote="Close")
+head(tickerdata)
+```
+
+Step 2: Compute the Log Returns
+```{r logReturns}
+tickerLogReturn<-log(lag(tickerdata))-log(tickerdata)
+head(tickerLogReturn)
+```
+
+Step3: Compute Volatility
+```{r computeVol}
+TickerVolatility<- sd(tickerLogReturn) * sqrt(250) * 100
+TickerVolatility
+
+Vol <- function(d,logrets) {
+  var = 0
+  lam = 0
+  varlist <- c()
+  for (r in logrets) {
+    lam = lam * (1-1/d) + 1
+  var = (1-1/lam)*var + (1/lam) * r^2
+    varlist <- c(varlist, var)
+    
+  }
+  sqrt(varlist)
+}
+
+volest  <- Vol(10,tickerLogReturn)
+head(volest)
+
+volest2 <- Vol(30,tickerLogReturn)
+head(volest2)
+
+volest3 <- Vol(100,tickerLogReturn)
+head(volest3)
+
+
+```
+
+Step 4: Plot Volatility
+```{r plotVolatility}
+plot(volest,type="l")
+lines(volest2, type="l", col="red")
+lines(volest3, type="l", col="blue")
+```
+
