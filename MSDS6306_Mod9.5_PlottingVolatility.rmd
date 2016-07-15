@@ -14,13 +14,13 @@ library(tseries)
 
 ```
 
-I have chosen to analyze the Company I work for, AmerisourceBergen. Ticker Symbol "ABC"
+I have been assigned Penumbra, Inc. Ticker Symbol "PEN"
 
 Step 1: Load the closing quotes
 ```{r loadData}
 
 
-tickerdata<-get.hist.quote('ABC', quote="Close")
+tickerdata<-get.hist.quote('PEN', quote="Close")
 head(tickerdata)
 ```
 

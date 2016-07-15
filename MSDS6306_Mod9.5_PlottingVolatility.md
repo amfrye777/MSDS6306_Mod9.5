@@ -3,28 +3,26 @@ For this analysis, we need to install/load the tseries R Package.
     ##install.packages("tseries")
     library(tseries)
 
-I have chosen to analyze the Company I work for, AmerisourceBergen.
-Ticker Symbol "ABC"
+I have been assigned Penumbra, Inc. Ticker Symbol "PEN"
 
 Step 1: Load the closing quotes
 
-    tickerdata<-get.hist.quote('ABC', quote="Close")
+    tickerdata<-get.hist.quote('PEN', quote="Close")
 
     ## Warning in download.file(url, destfile, method = method, quiet = quiet):
-    ## downloaded length 336342 != reported length 200
+    ## downloaded length 12495 != reported length 200
 
-    ## time series starts 1995-04-04
-    ## time series ends   2016-07-08
+    ## time series starts 2015-09-21
 
     head(tickerdata)
 
-    ##               Close
-    ## 1995-04-04 23.62496
-    ## 1995-04-05 22.75000
-    ## 1995-04-06 23.12496
-    ## 1995-04-07 22.75000
-    ## 1995-04-10 23.00000
-    ## 1995-04-11 22.87504
+    ##            Close
+    ## 2015-09-21 40.00
+    ## 2015-09-22 40.36
+    ## 2015-09-23 41.67
+    ## 2015-09-24 41.68
+    ## 2015-09-25 40.28
+    ## 2015-09-28 39.04
 
 Step 2: Compute the Log Returns
 
@@ -32,19 +30,19 @@ Step 2: Compute the Log Returns
     head(tickerLogReturn)
 
     ##                   Close
-    ## 1995-04-04 -0.037738635
-    ## 1995-04-05  0.016347408
-    ## 1995-04-06 -0.016347408
-    ## 1995-04-07  0.010929071
-    ## 1995-04-10 -0.005447856
-    ## 1995-04-11  0.000000000
+    ## 2015-09-21  0.008959766
+    ## 2015-09-22  0.031942177
+    ## 2015-09-23  0.000240000
+    ## 2015-09-24 -0.034166354
+    ## 2015-09-25 -0.031268256
+    ## 2015-09-28  0.014242281
 
 Step3: Compute Volatility
 
     TickerVolatility<- sd(tickerLogReturn) * sqrt(250) * 100
     TickerVolatility
 
-    ## [1] 42.34852
+    ## [1] 48.51677
 
     Vol <- function(d,logrets) {
       var = 0
@@ -62,17 +60,17 @@ Step3: Compute Volatility
     volest  <- Vol(10,tickerLogReturn)
     head(volest)
 
-    ## [1] 0.03773863 0.02855301 0.02475979 0.02166832 0.01902920 0.01687687
+    ## [1] 0.008959766 0.023979732 0.019048924 0.024429275 0.026264169 0.024204929
 
     volest2 <- Vol(30,tickerLogReturn)
     head(volest2)
 
-    ## [1] 0.03773863 0.02891222 0.02529615 0.02242974 0.02004705 0.01814115
+    ## [1] 0.008959766 0.023627449 0.019127147 0.024010880 0.025734976 0.024064105
 
     volest3 <- Vol(100,tickerLogReturn)
     head(volest3)
 
-    ## [1] 0.03773863 0.02903126 0.02547595 0.02268538 0.02038818 0.01856464
+    ## [1] 0.008959766 0.023508550 0.019146788 0.023870745 0.025554622 0.024002254
 
 Step 4: Plot Volatility
 
